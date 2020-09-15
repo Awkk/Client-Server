@@ -1,4 +1,4 @@
-package Servlet;
+package Server.Servlet;
 
 public class Servlet {
     
