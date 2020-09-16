@@ -1,4 +1,4 @@
-package Server.Servlet;
+package Server;
 
 public class HttpResponse {
     
