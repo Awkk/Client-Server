@@ -5,4 +5,4 @@
 ```java Client/Activity```
 
 ### Compile all files
-```javac -cp "aspectj/*":. Server/Logging.java Server/DirServer.java Server/Servlet/DirServlet/*.java Client/*.java```
+```javac -g -cp "aspectj/*":. Server/Logging.java Server/DirServer.java Server/Servlet/DirServlet/*.java Client/*.java```

@@ -2,6 +2,7 @@ package Server;
 
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.JoinPoint;
 
 @Aspect
 public class Logging {
@@ -11,53 +12,13 @@ public class Logging {
         System.out.println("Server listening on port " + DirServer.PORT);
     }
 
-    @Before("execution(* Server.DirServerThread.run(..))")
-    public void beforeDirServerThreadRun() {
-        System.out.println("Thread " + Thread.currentThread().getId() + ": Start DirServerThread.run().");
+    @Before("execution(* Server..*(..))&& !within(DirServer)")
+    public void beforeMethodExecute(JoinPoint joinPoint){
+        System.out.println("Thread " + Thread.currentThread().getId() + ": Start " + joinPoint.getSignature().toShortString());
     }
 
-    @After("execution(* Server.DirServerThread.run(..))")
-    public void afterDirServerThreadRun() {
-        System.out.println("Thread " + Thread.currentThread().getId() + ": Finish DirServerThread.run().");
-    }
-
-    @Before("call(void Server.Servlet.Servlet.doGet(..))")
-    public void beforeDoGetCall() {
-        System.out.println("Thread " + Thread.currentThread().getId() + ": Start DirServlet.doGet().");
-    }
-
-    @After("call(void Server.Servlet.Servlet.doGet(..))")
-    public void afterDoGetCall() {
-        System.out.println("Thread " + Thread.currentThread().getId() + ": Finish DirServlet.doGet().");
-    }
-
-    @Before("call(void Server.Servlet.HttpRequest.parseRequest(..))")
-    public void beforeParseRequestCall() {
-        System.out.println("Thread " + Thread.currentThread().getId() + ": Start HttpRequest.parseRequest().");
-    }
-
-    @After("call(void Server.Servlet.HttpRequest.parseRequest(..))")
-    public void afterParseRequestCall() {
-        System.out.println("Thread " + Thread.currentThread().getId() + ": Finish HttpRequest.parseRequest().");
-    }
-
-    @Before("call(String Server.Servlet.HttpResponse.getComposedHttpResponse())")
-    public void beforeComposeHttpResponseCall() {
-        System.out.println("Thread " + Thread.currentThread().getId() + ": Start HttpResponse.getComposedHttpResponse().");
-    }
-
-    @After("call(String Server.Servlet.HttpResponse.getComposedHttpResponse())")
-    public void afterComposeHttpResponseCall() {
-        System.out.println("Thread " + Thread.currentThread().getId() + ": Finish HttpResponse.getComposedHttpResponse().");
-    }
-
-    @Before("call(* Server.Servlet.HttpResponse.getBodyWriter())")
-    public void beforeGetBodyWriterCall() {
-        System.out.println("Thread " + Thread.currentThread().getId() + ": Start HttpResponse.getBodyWriter().");
-    }
-
-    @After("call(* Server.Servlet.HttpResponse.getBodyWriter())")
-    public void afterGetBodyWriterCall() {
-        System.out.println("Thread " + Thread.currentThread().getId() + ": Finish HttpResponse.getBodyWriter().");
+    @After("execution(* Server..*(..))&& !within(DirServer)")
+    public void afterMethodExecute(JoinPoint joinPoint){
+        System.out.println("Thread " + Thread.currentThread().getId() + ": Finish " + joinPoint.getSignature().toShortString());
     }
 }
